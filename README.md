@@ -4,7 +4,7 @@ To keep our deployment process as CI-agnostic as possible, and to speed deployme
 
 CircleCI references this image in its config.yml file (see circleci/config.yml). This can be seen as the current 'pristine' version of the config file, which will be used when new services are made.
 
-If this Docker image changes, CircleCI can be updated by changing the DEPLOYER_IMAGE environmental variable (see below). If the circleci/config.yml file changes, all services should be updated - so this is ideally a rare thing.
+If this Docker image changes, CircleCI can be updated by changing the DEPLOYER_IMAGE environmental variable. If the circleci/config.yml file changes, all services should be updated - so this is ideally a rare thing.
 
 ### Environment Variables
 
