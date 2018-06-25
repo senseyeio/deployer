@@ -20,23 +20,6 @@ The CI should be configured to have:
 And at build-time the CI should provide:
 - BUILD_NO: currently the SHA of the commit that triggered the build. Note that this is different from the build number used previously (CircleCI treats each step in the workflow as a build, so build numbers aren't sequential).
 
-
-### Building and pushing the image
-
-To build a new version of the image, run:
-
-```docker build -t prognosys/ci:N .```
-
-where N is replaced by the new version number.
-
-You'll then need to get credentials for AWS:
-
-```$(aws ecr get-login --no-include-email --region eu-west-1)```
-
-Again, substituting the version number for N.
-
-You will then need to update DEPLOYER_IMAGE on CircleCI's environmental variables page to refer to `332489627459.dkr.ecr.eu-west-1.amazonaws.com/prognosys/ci:N`
-
 ### Contents of the image
 
 There are 3 scripts included with this image:
