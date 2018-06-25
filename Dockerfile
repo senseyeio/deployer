@@ -19,7 +19,7 @@ RUN ln -sf /usr/share/zoneinfo/Etc/UTC /etc/localtime
 
 # Install aws-cli and docker-compose
 RUN apk -Uuv add groff less python py-pip
-RUN pip install awscli docker-compose
+RUN pip install awscli docker-compose boto3
 RUN apk --purge -v del py-pip
 RUN rm /var/cache/apk/*
 
@@ -54,6 +54,8 @@ RUN adduser -D deployer;                                               \
 
 ADD create_repo.sh /home/deployer/create_repo.sh
 RUN chmod +x /home/deployer/create_repo.sh
+ADD create_repo.py /home/deployer/create_repo.py
+RUN chmod +x /home/deployer/create_repo.py
 ADD deploy_image.sh /home/deployer/deploy_image.sh
 RUN chmod +x /home/deployer/deploy_image.sh
 ADD tag_and_push.sh /home/deployer/tag_and_push.sh
