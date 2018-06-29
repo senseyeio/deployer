@@ -67,6 +67,12 @@ RUN chmod +x /home/deployer/deploy_image.sh
 ADD tag_and_push.sh /home/deployer/tag_and_push.sh
 RUN chmod +x /home/deployer/tag_and_push.sh
 
+# SFS updater
+ADD sfs_update.sh /home/deployer/sfs_update.sh
+RUN chmod +x /home/deployer/sfs_update.sh
+ADD sfs_update.py /home/deployer/sfs_update.py
+RUN chmod +x /home/deployer/sfs_update.py
+
 USER deployer
 
 CMD ["/bin/sh"]
