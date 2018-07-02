@@ -34,8 +34,17 @@ class ServiceFinder:
 
     def update_service(self, service_name, auth_header, service_title=None, service_status=None, repo=None, lib_repos=None):
         url = "%s/v1/services/%s" % (self.url, service_name)
+        update_params = {'name':service_name}
+        if service_title:
+            update_params['title'] = service_title
+        if service_status:
+            update_params['status'] = service_status
+        if repo:
+            update_params['repo'] = repo
+        if lib_repos:
+            update_params['lib-repos'] = lib_repos
         resp = requests.put(url, 
-            json={'name':service_name, 'title':service_title, 'status':service_status, 'repo':repo, 'lib-repos':lib_repos}, 
+            json=update_params, 
             headers={'Authorization':'Bearer '+auth_header}
         )
         resp.raise_for_status()
@@ -99,8 +108,9 @@ def get_jwt():
         if v is None:
             raise Exception("missing environment variable ",env_key)
         params[k] = v
-    response = requests.post(params['url'], json=params)
-    return response.json()['id_token']
+    resp = requests.post(params['url'], json=params)
+    resp.raise_for_status()
+    return resp.json()['id_token']
 
 def main(params):
     try:
