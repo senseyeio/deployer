@@ -17,9 +17,15 @@ RUN apk add git
 # Set timezone to UTC by default
 RUN ln -sf /usr/share/zoneinfo/Etc/UTC /etc/localtime
 
-# Install aws-cli and docker-compose
 RUN apk -Uuv add groff less python py-pip
+
+# Install aws-cli and docker-compose
 RUN pip install awscli docker-compose boto3
+
+# Install dependencies for sfs-update
+RUN pip install requests pyyaml giturlparse
+
+# Clean up pip
 RUN apk --purge -v del py-pip
 RUN rm /var/cache/apk/*
 
@@ -60,6 +66,12 @@ ADD deploy_image.sh /home/deployer/deploy_image.sh
 RUN chmod +x /home/deployer/deploy_image.sh
 ADD tag_and_push.sh /home/deployer/tag_and_push.sh
 RUN chmod +x /home/deployer/tag_and_push.sh
+
+# SFS updater
+ADD sfs_update.sh /home/deployer/sfs_update.sh
+RUN chmod +x /home/deployer/sfs_update.sh
+ADD sfs_update.py /home/deployer/sfs_update.py
+RUN chmod +x /home/deployer/sfs_update.py
 
 USER deployer
 
