@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 
 import boto3
 import sys
@@ -25,4 +25,4 @@ if __name__ == "__main__":
 	if not find_repository(client, repo_name):
 		create_repository(client, repo_name)
 	else:
-		print "{} already exists.".format(repo_name)
+		print("{} already exists.".format(repo_name))

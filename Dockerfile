@@ -17,13 +17,13 @@ RUN apk add git
 # Set timezone to UTC by default
 RUN ln -sf /usr/share/zoneinfo/Etc/UTC /etc/localtime
 
-RUN apk -Uuv add groff less python py-pip
+RUN apk -Uuv add groff less python3
 
 # Install aws-cli and docker-compose
-RUN pip install awscli docker-compose boto3
+RUN pip3 install awscli docker-compose boto3
 
 # Install dependencies for sfs-update
-RUN pip install requests pyyaml giturlparse
+RUN pip3 install requests pyyaml giturlparse
 
 # Clean up pip
 RUN apk --purge -v del py-pip

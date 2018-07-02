@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 # -*- coding: utf8 -*-
 
 import requests
@@ -7,7 +7,7 @@ import os
 import base64
 import yaml
 import sys
-import ConfigParser as configparser
+import configparser
 from giturlparse import parse
 
 class ServiceFinder:
