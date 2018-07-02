@@ -7,4 +7,4 @@ if [[ -z "$compose_file" ]]; then
     exit 1
 fi
 
-~/sfs-update.py -d $1 ${SFS_URL}
+~/sfs_update.py -d $1 ${SFS_URL}
