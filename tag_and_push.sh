@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euvo pipefail
 
-aws configure set region ${AWS_REGION}
+aws configure set region ${AWS_REGION_ECR}
 dockerLoginCmd=$(aws ecr get-login --no-include-email)
 echo $($dockerLoginCmd)
 
