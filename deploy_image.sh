@@ -13,4 +13,4 @@ echo $($dockerLoginCmd)
 
 sed -i -e "s#build: .#image: ${AWS_ACCOUNT}.dkr.ecr.eu-west-1.amazonaws.com/prognosys/${SERVICE_NAME}:${BUILD_NO}#g" $1
 ecs-cli configure --cluster ${CLUSTER_NAME} --region ${AWS_REGION}
-ecs-cli compose -p ${SERVICE_NAME} -f $1 service up
+ecs-cli compose -p ${SERVICE_NAME} -f $1 service up --deployment-max-percent 200 --deployment-min-healthy-percent 100
