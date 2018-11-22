@@ -79,26 +79,34 @@ def get_git_repo(path):
     ssh_url = parsed_git_url.url2ssh
     return ssh_url
 
-def get_docker_env(docker_path):
-    env = {}
+def get_docker_env(docker_path, required_keys):
     if not os.path.exists(docker_path):
         raise Exception("couldn't find "+docker_path)
 
     with open(docker_path, "r") as stream:
         try:
             y = yaml.load(stream)
-            if len(y.keys()) != 1:
-                raise Exception("expect 1 root key in file")
-            service_root = list(y.keys())[0]
-            if 'environment' not in y[service_root]:
-                raise Exception("expect environment to be present in first level of file")
+            for service_roots, service in y.items():
+                env = {}
+                if 'environment' not in service:
+                    raise Exception("expect environment to be present in first level of file")
+                
+                for e in service['environment']:
+                    (k,v) = e.split("=", 1)
+                    env[k] = v
 
-            for e in y[service_root]['environment']:
-                (k,v) = e.split("=", 1)
-                env[k] = v
+                got_keys = True
+                for key in required_keys:
+                    if key not in env:
+                        got_keys = False
+                
+                if not got_keys:
+                    continue
+                
+                return env
         except yaml.YAMLError as exc:
             raise exc
-    return env
+    return None
 
 def get_jwt():
     params = {"scope":"openid app_metadata"}
@@ -124,7 +132,9 @@ def main(params):
 
     ### Get info from the docker compose file (we need the service name, and optionally the status route)
     try:
-        docker_env = get_docker_env(os.path.join(service_path, params.dockerfile))
+        docker_env = get_docker_env(
+            os.path.join(service_path, params.dockerfile),
+            ['SERVICE_NAME', 'SERVICE_80_CHECK_HTTP'])
     except Exception as e:
         print("Unable to obtain docker environment:", e)
         sys.exit(1)
