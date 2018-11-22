@@ -89,7 +89,7 @@ def get_docker_env(docker_path, required_keys):
             for service_roots, service in y.items():
                 env = {}
                 if 'environment' not in service:
-                    raise Exception("expect environment to be present in first level of file")
+                    continue
                 
                 for e in service['environment']:
                     (k,v) = e.split("=", 1)
@@ -106,7 +106,7 @@ def get_docker_env(docker_path, required_keys):
                 return env
         except yaml.YAMLError as exc:
             raise exc
-    return None
+    raise Exception("No suitable service config found")
 
 def get_jwt():
     params = {"scope":"openid app_metadata"}
