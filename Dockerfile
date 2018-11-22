@@ -20,7 +20,7 @@ RUN ln -sf /usr/share/zoneinfo/Etc/UTC /etc/localtime
 RUN apk -Uuv add groff less python3
 
 # Install aws-cli and docker-compose
-RUN pip3 install awscli docker-compose boto3
+RUN pip3 install awscli docker-compose==1.22.0 boto3
 
 # Install dependencies for sfs-update
 RUN pip3 install requests pyyaml giturlparse
